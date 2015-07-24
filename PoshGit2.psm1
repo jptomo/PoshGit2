@@ -1,6 +1,11 @@
+If(-not (Get-Module PoshUtil)) {
+    Write-Error "PoshGit2 use PoshUtil module https://github.com/jptomo/PoshUtil, Please Install it."
+    return
+}
+
 # Import Definitions
 
-. (Join-Path $PSScriptRoot (Join-Path Lib Args.ps1))
+. (Join-Paths $PSScriptRoot, Lib, Args.ps1)
 
 # Run Installer
 
