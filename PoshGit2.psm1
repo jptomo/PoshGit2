@@ -1,6 +1,6 @@
 # Import Definitions
 
-. (Join-Path $PSScriptRoot Args.ps1)
+. (Join-Path $PSScriptRoot (Join-Path Lib Args.ps1))
 
 # Run Installer
 
