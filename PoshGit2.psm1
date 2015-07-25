@@ -5,7 +5,7 @@ If(-not (Get-Module PoshUtil)) {
 
 # Import Definitions
 
-. (Join-Paths $PSScriptRoot Lib Args.ps1)
+. (Join-Path $PSScriptRoot Lib\PoshGit2.ps1)
 
 # Run Installer
 
@@ -68,5 +68,5 @@ Function Install-Git {
 New-Alias -Name git -Value Install-Git
 
 # Export
-Export-ModuleMember -Function Install-Git
+Export-ModuleMember -Function Install-Git, Get-GitRepository
 Export-ModuleMember -Alias git
