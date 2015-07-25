@@ -12,5 +12,3 @@ Function Resolve-Args {
         Write-Host $Args
     }
 }
-#
-# vim:ft=ps1 ts=4 sw=4 sts=4:

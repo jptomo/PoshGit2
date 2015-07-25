@@ -5,7 +5,7 @@ If(-not (Get-Module PoshUtil)) {
 
 # Import Definitions
 
-. (Join-Paths $PSScriptRoot, Lib, Args.ps1)
+. (Join-Paths $PSScriptRoot Lib Args.ps1)
 
 # Run Installer
 
@@ -70,5 +70,3 @@ New-Alias -Name git -Value Install-Git
 # Export
 Export-ModuleMember -Function Install-Git
 Export-ModuleMember -Alias git
-
-# vim:ft=ps1 ts=4 sw=4 sts=4:
