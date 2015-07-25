@@ -24,6 +24,7 @@ Function Get-GitRepository
     )
 
     Process {
-        return (New-Object -TypeName LibGit2Sharp.Repository -ArgumentList $Path)
+        $realPath = (Resolve-Path $Path)
+        return (New-Object -TypeName LibGit2Sharp.Repository -ArgumentList $realPath)
     }
 }
