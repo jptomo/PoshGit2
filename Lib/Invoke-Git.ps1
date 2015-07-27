@@ -1,25 +1,28 @@
-. (Join-Paths $PSScriptRoot Invoke-GitLog.ps1)
-
 Function Invoke-Git
 {
-    Begin
-    {
-        $setupDone = $false
-        Function initialize-Func
-        {
-            Set-Variable -Name git-log -Value Invoke-GitLog -Scope 1
-
-            Set-Variable -Name setupDone -Value $true -Scope 1
-        }
-        initialize-Func
-    }
     Process
     {
-        If (-not $setupDone) { initialize-Func }
+        # Search a defined Function with Invoke-Git prefix
+        $culture = [System.Globalization.CultureInfo]::GetCultureInfo("en-US")
+        $targetCmdlet = "Invoke-Git$($culture.TextInfo.ToTitleCase($Args[0]))"
+        try
+        {
+            return &$targetCmdlet $Args[1..($Args.Count-1)]
+        }
+        catch [System.Management.Automation.CommandNotFoundException]
+        {
+            # no re-action
+        }
 
-        If ($Args[0] -eq "log") {(&${git-log} $Args[1..($Args.Count - 1)])}
-        # 変数を探す
-        # 変数がない場合、えらーをあげる
+        # Search a file with Invoke-Git prefix
+        $filePath = Join-Path $PSScriptRoot "${targetCmdlet}.ps1"
+        If(Test-Path -Path $filePath)
+        {
+            . $filePath
+            return &$targetCmdlet $Args[1..($Args.Count-1)]
+        }
+
+        # Throw error when no functions and no files.
+        throw [System.Management.Automation.CommandNotFoundException]
     }
-
 }
