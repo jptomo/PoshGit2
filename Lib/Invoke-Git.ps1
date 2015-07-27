@@ -23,6 +23,7 @@ Function Invoke-Git
         }
 
         # Throw error when no functions and no files.
-        throw [System.Management.Automation.CommandNotFoundException]
+        $errMsg = "${targetCmdlet} : No such Cmdlet."
+        throw (New-Object System.Management.Automation.CommandNotFoundException -ArgumentList $errMsg)
     }
 }
