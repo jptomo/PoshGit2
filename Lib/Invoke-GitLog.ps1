@@ -1,21 +1,21 @@
-. (Join-Paths $PSScriptRoot Get-GitRepository.ps1)
-
 Function Invoke-GitLog
 {
-    <#
-        .SYNOPSIS
-
-        Blah Blah Blah
-
-        .EXAMPLE
-
-        Invoke-GitLog
-
-    #>
     Process
     {
-        ForEach($arg in $Args) {
-            Write-Host "### some $arg"
+        $cwd = (Convert-Path .)
+        try
+        {
+            $repo = (Get-GitRepository $cwd)
+        }
+        catch
+        {
+            Write-Error "fatal: Not a git repository"
+            return
+        }
+
+        ForEach($commit in $repo.Commits)
+        {
+            Get-Content $commit
         }
     }
 }
