@@ -5,7 +5,7 @@ Function Invoke-Git
     $targetCmdlet = "Invoke-Git$($culture.TextInfo.ToTitleCase($Args[0]))"
     try
     {
-        return &$targetCmdlet $Args[1..($Args.Count-1)]
+        return (& $targetCmdlet $Args[1..($Args.Count-1)])
     }
     catch [System.Management.Automation.CommandNotFoundException]
     {
@@ -17,9 +17,9 @@ Function Invoke-Git
     If(Test-Path -Path $filePath)
     {
         . $filePath
-        return &$targetCmdlet $Args[1..($Args.Count-1)]
+        return (& $targetCmdlet $Args[1..($Args.Count-1)])
     }
 
     # Throw error when no functions and no files.
-    &$targetCmdlet
+    & $targetCmdlet $Args[1..($Args.Count-1)]
 }
