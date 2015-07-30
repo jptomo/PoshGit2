@@ -11,7 +11,7 @@ Function Invoke-GitClone
             -Arguments $Args `
             -Defaults @{'Depth'=0; 'Branch'=''; 'Uri'=''; 'Path'=''} `
             -KeyMaps @{'Depth'='--depth'; 'Branch'='-b','--branch'} `
-            -Positionals 'Uri','[Path]')
+            -Positionals 'Uri','Path')
 
         $params
     }

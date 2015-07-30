@@ -40,6 +40,8 @@ Function Resolve-Args
     {
         $params = $Defaults
 
+        # Create reverse map of KeyMaps.
+        # To Map Arguments.
         $maps = @{}
         ForEach($k in $KeyMaps.Keys)
         {
@@ -57,7 +59,7 @@ Function Resolve-Args
         }
 
         $arguments = ($Arguments | select)
-        $pos = @()
+        $pos = 0
         For($i = 0; $i -lt $arguments.Count; $i += 1)
         {
             If($maps.Keys -contains $arguments[$i])
@@ -67,7 +69,11 @@ Function Resolve-Args
             }
             Else
             {
-                $pos += $arguments[$i]
+                If($pos -lt $Positionals.Count)
+                {
+                    $params[$Positionals[$pos]] = $arguments[$i]
+                }
+                $pos += 1
             }
         }
 
