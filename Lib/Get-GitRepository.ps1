@@ -1,4 +1,4 @@
-. (Join-Path $PSScriptRoot _Util.ps1)
+. (Join-Path $PSScriptRoot PoshUtil.ps1)
 
 # def dllPath
 Add-Type -Path (Join-Paths $PSScriptRoot libgit2sharp LibGit2Sharp.dll)

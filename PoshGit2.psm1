@@ -1,4 +1,4 @@
-. (Join-Path (Join-Path $PSScriptRoot Lib) _Util.ps1)
+. (Join-Path (Join-Path $PSScriptRoot Lib) PoshUtil.ps1)
 
 . (Join-Paths $PSScriptRoot Lib Get-GitRepository.ps1)
 . (Join-Paths $PSScriptRoot Lib Invoke-Git.ps1)

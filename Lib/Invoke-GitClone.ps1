@@ -1,4 +1,4 @@
-. (Join-Path $PSScriptRoot _Util.ps1)
+. (Join-Path $PSScriptRoot PoshUtil.ps1)
 
 Function Invoke-GitClone
 {
