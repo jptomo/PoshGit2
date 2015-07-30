@@ -60,9 +60,16 @@ Function Resolve-Args
 
         $arguments = ($Arguments | select)
         $pos = 0
+        $posOnly = $False
         For($i = 0; $i -lt $arguments.Count; $i += 1)
         {
-            If($maps.Keys -contains $arguments[$i])
+            If($arguments[$i] -eq '--')
+            {
+                $posOnly = $True
+                continue
+            }
+
+            If((-not $posOnly) -and $maps.Keys -contains $arguments[$i])
             {
                 $params[$maps[$arguments[$i]]] = $arguments[$i + 1]
                 $i += 1
