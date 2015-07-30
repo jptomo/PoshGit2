@@ -1,7 +1,4 @@
-If(-not (Get-Module PoshUtil)) {
-    Write-Error "PoshGit2 use PoshUtil module https://github.com/jptomo/PoshUtil, Please Install it."
-    return
-}
+. (Join-Path (Join-Path $PSScriptRoot Lib) _Util.ps1)
 
 . (Join-Paths $PSScriptRoot Lib Get-GitRepository.ps1)
 . (Join-Paths $PSScriptRoot Lib Invoke-Git.ps1)
