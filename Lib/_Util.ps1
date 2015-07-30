@@ -32,7 +32,8 @@ Function Resolve-Args
     param(
         [Object[]]$Arguments,
         $Defaults,
-        $KeyMaps
+        $KeyMaps,
+        $Positionals
     )
 
     Process
@@ -56,12 +57,17 @@ Function Resolve-Args
         }
 
         $arguments = ($Arguments | select)
+        $pos = @()
         For($i = 0; $i -lt $arguments.Count; $i += 1)
         {
             If($maps.Keys -contains $arguments[$i])
             {
                 $params[$maps[$arguments[$i]]] = $arguments[$i + 1]
                 $i += 1
+            }
+            Else
+            {
+                $pos += $arguments[$i]
             }
         }
 
