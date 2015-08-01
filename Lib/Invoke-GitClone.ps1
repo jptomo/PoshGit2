@@ -2,6 +2,8 @@
 
 Function Invoke-GitClone
 {
+    # TODO: Junction を取り扱えるようにする
+
     Process
     {
         $params = (
@@ -29,9 +31,12 @@ Function Invoke-GitClone
             {
                 $dstPath = $last[0]
             }
-            $dstPath = ($dstPath -Replace '.git$', '')
+            $dstPath = (Convert-FullPath ($dstPath -Replace '.git$', ''))
         }
-        $dstPath = (Convert-FullPath $dstPath)
+        Else
+        {
+            $dstPath = (Convert-FullPath $params['Path'])
+        }
 
         $options = (New-Object LibGit2Sharp.CloneOptions)
         If($params['Branch'] -Ne '')
@@ -44,9 +49,6 @@ Function Invoke-GitClone
             # TODO: Impl: Depth Option
         }
 
-        $tmpDir = New-TempDirectory
-        [LibGit2Sharp.Repository]::Clone($params['Uri'], $tmpDir, $options)
-
-        Move-Item -Path $tmpDir -Destination $dstPath
+        return [LibGit2Sharp.Repository]::Clone($params['Uri'], $dstPath, $options)
     }
 }
