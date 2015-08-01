@@ -94,3 +94,46 @@ Function Convert-FullPath
         return $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($Path)
     }
 }
+
+
+Function Get-RandomText
+{
+    [CmdletBinding()]
+    param(
+        [Int] $Length = 24,
+        [String] $Choice = 'abcdefghijklmnopqrstuvwxyz0123456789'
+    )
+
+    Process
+    {
+        $Choices = (($Choice -Split '') | ? { $_ -Ne '' })
+
+        $value = ''
+        For($i = 0; $i -Lt $Length; ++$i)
+        {
+            $value += (Get-Random -InputObject $Choices)
+        }
+        return $value
+    }
+
+}
+
+
+Function New-TempDirectory
+{
+    [CmdletBinding()]
+    param(
+        [String] $Prefix = ''
+    )
+
+    Process
+    {
+        Do
+        {
+            $path = (Join-Paths $ENV:TMP "${Prefix}$(Get-RandomText)")
+        }
+        While(Test-Path $path)
+
+        return (New-Item -ItemType Directory $path)
+    }
+}

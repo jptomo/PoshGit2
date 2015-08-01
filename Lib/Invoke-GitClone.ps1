@@ -14,12 +14,12 @@ Function Invoke-GitClone
         $path = (Convert-FullPath $params['Path'])
 
         $options = (New-Object LibGit2Sharp.CloneOptions)
-        If($params['Branch'] -ne '')
+        If($params['Branch'] -Ne '')
         {
             $options.BranchName = $params['Branch']
         }
 
-        If($params['Depth'] -ne 0)
+        If($params['Depth'] -Ne 0)
         {
             # TODO: Impl: Depth Option
         }
