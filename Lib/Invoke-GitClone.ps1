@@ -11,6 +11,14 @@ Function Invoke-GitClone
                 -KeyMaps @{'Depth'='--depth'; 'Branch'='-b','--branch'} `
                 -Positionals 'Uri','Path')
 
-        $params
+        $path = (Convert-FullPath $params['Path'])
+
+        $options = (New-Object LibGit2Sharp.CloneOptions)
+        If($params['Branch'] -ne '')
+        {
+            $options.BranchName = $params['Branch']
+        }
+
+        [LibGit2Sharp.Repository]::Clone($params['Uri'], $path, $options)
     }
 }

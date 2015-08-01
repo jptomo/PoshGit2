@@ -58,32 +58,39 @@ Function Resolve-Args
             }
         }
 
-        $arguments = ($Arguments | select)
+        $Arguments = ($Arguments | select)
         $pos = 0
-        $posOnly = $False
-        For($i = 0; $i -lt $arguments.Count; $i += 1)
+        For($i = 0; $i -lt $Arguments.Count; $i += 1)
         {
-            If($arguments[$i] -eq '--')
+            If($maps.Keys -contains $Arguments[$i])
             {
-                $posOnly = $True
-                continue
-            }
-
-            If((-not $posOnly) -and $maps.Keys -contains $arguments[$i])
-            {
-                $params[$maps[$arguments[$i]]] = $arguments[$i + 1]
+                $params[$maps[$Arguments[$i]]] = $Arguments[$i + 1]
                 $i += 1
             }
             Else
             {
                 If($pos -lt $Positionals.Count)
                 {
-                    $params[$Positionals[$pos]] = $arguments[$i]
+                    $params[$Positionals[$pos]] = $Arguments[$i]
                 }
                 $pos += 1
             }
         }
 
         return $params
+    }
+}
+
+
+Function Convert-FullPath
+{
+    Param
+    (
+        [string]$Path
+    )
+
+    Process
+    {
+        return $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($Path)
     }
 }
