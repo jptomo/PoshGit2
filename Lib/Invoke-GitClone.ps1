@@ -19,6 +19,11 @@ Function Invoke-GitClone
             $options.BranchName = $params['Branch']
         }
 
+        If($params['Depth'] -ne 0)
+        {
+            # TODO: Impl: Depth Option
+        }
+
         [LibGit2Sharp.Repository]::Clone($params['Uri'], $path, $options)
     }
 }
