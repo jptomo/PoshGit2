@@ -130,7 +130,7 @@ Function New-TempDirectory
     {
         Do
         {
-            $path = (Join-Path $ENV:TMP "${Prefix}$(Get-RandomText)")
+            $path = (Join-Path $ENV:TMP "${Prefix}$([IO.Path]::GetRandomFileName())")
         }
         While(Test-Path $path)
 
