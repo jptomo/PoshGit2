@@ -25,7 +25,7 @@ Function Invoke-Git
         ForEach($key in $keyMaps.Keys)
         {
             $param = $params[$key]
-            If($param -Ne $Null)
+            If($param -Ne $defaults[$key])
             {
                 $cmdParams += " -${key} ${param}"
             }
@@ -33,7 +33,7 @@ Function Invoke-Git
         ForEach($key in $positionals)
         {
             $param = $params[$key]
-            If($param -Ne $Null)
+            If($param -Ne $defaults[$key])
             {
                 $cmdParams += " ${param}"
             }

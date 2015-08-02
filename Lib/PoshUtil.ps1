@@ -80,7 +80,11 @@ Function Resolve-Args
 
     Process
     {
-        $params = $Defaults
+        $params = @{}
+        ForEach($key in $Defaults.Keys)
+        {
+            $params[$key] = $Defaults[$key]
+        }
 
         # Create reverse map of KeyMaps.
         # To Map Arguments.
@@ -111,7 +115,7 @@ Function Resolve-Args
             }
             Else
             {
-                If($pos -lt $Positionals.Count)
+                If($pos -Lt $Positionals.Count)
                 {
                     $params[$Positionals[$pos]] = $arguments[$i]
                 }
