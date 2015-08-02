@@ -4,6 +4,15 @@ Function Invoke-GitClone
 {
     # TODO: Junction を取り扱えるようにする
 
+    <#
+        .SYNOPSIS
+            git clone
+
+        .NOTES
+            Depth: --depth
+            Branch: -b, --branch
+    #>
+
     Process
     {
         $params = (
