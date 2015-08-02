@@ -68,6 +68,8 @@ Function Get-FuncParams
 
 Function Resolve-Args
 {
+    # TODO: Raise error if mandantry vars missed
+
     [CmdletBinding()]
     param(
         [String]$ArgStr,
