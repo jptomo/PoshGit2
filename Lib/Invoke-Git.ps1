@@ -21,7 +21,7 @@ Function Invoke-Git
         $argStr = ([String]::Join(' ', $Args[1..($Args.Count-1)]))
         $params = (Resolve-Args $argStr $defaults $keyMaps $positionals)
     }
-    $params
+    return $params
 
     # return (& $targetCmdlet $Args[1..($Args.Count-1)])
 }

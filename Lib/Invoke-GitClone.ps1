@@ -25,10 +25,10 @@ Function Invoke-GitClone
     Param(
         [Parameter]
         [Int]
-        $Depth = 0,
+        $Depth,
         [Parameter]
         [String]
-        $Branch = 'master',
+        $Branch,
         [Parameter(Position=0, Mandatory=$True)]
         [String]
         $Uri,

@@ -38,7 +38,11 @@ Function Get-FuncParams
     Process
     {
         $funcParams = (Get-Help $FuncName).parameters.parameter
-        $defaults = ($funcParams | % { @{$_.name = $_.defaultValue} })
+        $defaults = @{}
+        ForEach($obj in $funcParams)
+        {
+            $defaults[$obj.name] = $obj.defaultValue
+        }
 
         $keyMaps = @{}
         ForEach($obj in ($funcParams | ? { $_.position -Eq 'named' }))
@@ -51,7 +55,11 @@ Function Get-FuncParams
             $keyMaps[$obj.name] = $aliases
         }
 
-        $positionals = ($funcParams | ? { $_.position -Match '[0-9]+' } | % { @{$_.name = [Int] $_.position} })
+        $positionals = @()
+        ForEach($obj in ($funcParams | ? { $_.position -Match '[0-9]+' } | sort -Property position))
+        {
+            $positionals += $obj.name
+        }
 
         return $defaults, $keyMaps, $positionals
     }
