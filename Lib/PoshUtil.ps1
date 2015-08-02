@@ -26,11 +26,43 @@ Function Join-Paths
 }
 
 
+Function Get-FuncParams
+{
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory=$True)]
+        [String]
+        $FuncName
+    )
+
+    Process
+    {
+        $funcParams = (Get-Help $FuncName).parameters.parameter
+        $defaults = ($funcParams | % { @{$_.name = $_.defaultValue} })
+
+        $keyMaps = @{}
+        ForEach($obj in ($funcParams | ? { $_.position -Eq 'named' }))
+        {
+            $aliases = ($obj.description.Text -Split '\n' `
+                        | ? { $_.Trim().StartsWith('alias: ') } `
+                        | % { $_.Trim() } `
+                        | % { [String]::Join('', $_[7..($_.Length - 1)]) -Split ',' } `
+                        | % { $_.Trim() })
+            $keyMaps[$obj.name] = $aliases
+        }
+
+        $positionals = ($funcParams | ? { $_.position -Match '[0-9]+' } | % { @{$_.name = [Int] $_.position} })
+
+        return $defaults, $keyMaps, $positionals
+    }
+}
+
+
 Function Resolve-Args
 {
     [CmdletBinding()]
     param(
-        [Object[]]$Arguments,
+        [String]$Arguments,
         $Defaults,
         $KeyMaps,
         $Positionals
@@ -58,7 +90,6 @@ Function Resolve-Args
             }
         }
 
-        $Arguments = ($Arguments | select)
         $pos = 0
         For($i = 0; $i -lt $Arguments.Count; $i += 1)
         {

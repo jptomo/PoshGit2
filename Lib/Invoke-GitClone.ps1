@@ -8,10 +8,34 @@ Function Invoke-GitClone
         .SYNOPSIS
             git clone
 
-        .NOTES
-            Depth: --depth
-            Branch: -b, --branch
+        .PARAMETER Depth
+            TODO: implement
+            alias: --depth
+
+        .PARAMETER Branch
+            alias: -b, --branch
+
+        .PARAMETER Uri
+            alias: uri
+
+        .PARAMETER Path
+            alias: path
     #>
+
+    Param(
+        [Parameter]
+        [Int]
+        $Depth = 0,
+        [Parameter]
+        [String]
+        $Branch = 'master',
+        [Parameter(Position=0, Mandatory=$True)]
+        [String]
+        $Uri,
+        [Parameter(Position=1)]
+        [String]
+        $Path
+    )
 
     Process
     {

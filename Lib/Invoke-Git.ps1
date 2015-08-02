@@ -3,23 +3,25 @@ Function Invoke-Git
     # Search a defined Function with Invoke-Git prefix
     $culture = [System.Globalization.CultureInfo]::GetCultureInfo("en-US")
     $targetCmdlet = "Invoke-Git$($culture.TextInfo.ToTitleCase($Args[0]))"
-    try
-    {
-        return (& $targetCmdlet $Args[1..($Args.Count-1)])
-    }
-    catch [System.Management.Automation.CommandNotFoundException]
-    {
-        # no re-action
-    }
 
     # Search a file with Invoke-Git prefix
-    $filePath = Join-Path $PSScriptRoot "${targetCmdlet}.ps1"
-    If(Test-Path -Path $filePath)
+    If((Get-ChildItem Function:\ | ? { $_.Name -Eq $targetCmdlet }).Count -Eq 0)
     {
-        . $filePath
-        return (& $targetCmdlet $Args[1..($Args.Count-1)])
+        $filePath = Join-Path $PSScriptRoot "${targetCmdlet}.ps1"
+        If(Test-Path -Path $filePath)
+        {
+            . $filePath
+        }
     }
 
-    # Throw error when no functions and no files.
-    & $targetCmdlet $Args[1..($Args.Count-1)]
+    # Parse Args
+    If((Get-ChildItem Function:\ | ? { $_.Name -Eq $targetCmdlet }).Count -Gt 0)
+    {
+        $defaults, $keyMaps, $positionals = (Get-FuncParams $targetCmdlet)
+        $argStr = ([String]::Join(' ', $Args[1..($Args.Count-1)]))
+        $params = (Resolve-Args $argStr $defaults $keyMaps $positionals)
+    }
+    $params
+
+    # return (& $targetCmdlet $Args[1..($Args.Count-1)])
 }
