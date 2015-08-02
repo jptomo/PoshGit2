@@ -70,7 +70,7 @@ Function Resolve-Args
 {
     [CmdletBinding()]
     param(
-        [String]$Arguments,
+        [String]$ArgStr,
         $Defaults,
         $KeyMaps,
         $Positionals
@@ -99,18 +99,19 @@ Function Resolve-Args
         }
 
         $pos = 0
-        For($i = 0; $i -lt $Arguments.Count; $i += 1)
+        $arguments = ($ArgStr -Split ' ')
+        For($i = 0; $i -lt $arguments.Count; $i += 1)
         {
-            If($maps.Keys -contains $Arguments[$i])
+            If($maps.Keys -contains $arguments[$i])
             {
-                $params[$maps[$Arguments[$i]]] = $Arguments[$i + 1]
+                $params[$maps[$arguments[$i]]] = $arguments[$i + 1]
                 $i += 1
             }
             Else
             {
                 If($pos -lt $Positionals.Count)
                 {
-                    $params[$Positionals[$pos]] = $Arguments[$i]
+                    $params[$Positionals[$pos]] = $arguments[$i]
                 }
                 $pos += 1
             }
