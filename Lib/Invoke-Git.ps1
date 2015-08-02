@@ -15,13 +15,31 @@ Function Invoke-Git
     }
 
     # Parse Args
+    $cmdParams = ''
     If((Get-ChildItem Function:\ | ? { $_.Name -Eq $targetCmdlet }).Count -Gt 0)
     {
         $defaults, $keyMaps, $positionals = (Get-FuncParams $targetCmdlet)
         $argStr = ([String]::Join(' ', $Args[1..($Args.Count-1)]))
         $params = (Resolve-Args $argStr $defaults $keyMaps $positionals)
-    }
-    return $params
 
-    # return (& $targetCmdlet $Args[1..($Args.Count-1)])
+        ForEach($key in $keyMaps.Keys)
+        {
+            $param = $params[$key]
+            If($param -Ne $Null)
+            {
+                $cmdParams += " -${key} ${param}"
+            }
+        }
+        ForEach($key in $positionals)
+        {
+            $param = $params[$key]
+            If($param -Ne $Null)
+            {
+                $cmdParams += " ${param}"
+            }
+        }
+        $cmdParams = $cmdParams.Trim()
+    }
+
+    return Invoke-Expression ([String]::Join(' ', $targetCmdlet, $cmdParams))
 }

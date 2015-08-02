@@ -1,15 +1,13 @@
-. (Join-Path $PSScriptRoot PoshUtil.ps1)
-
 Function Invoke-GitClone
 {
-    # TODO: Junction を取り扱えるようにする
+    # TODO: fix use case of Junction directory
+    # TODO: impl Depth
 
     <#
         .SYNOPSIS
             git clone
 
         .PARAMETER Depth
-            TODO: implement
             alias: --depth
 
         .PARAMETER Branch
@@ -23,10 +21,10 @@ Function Invoke-GitClone
     #>
 
     Param(
-        [Parameter]
+        [Parameter()]
         [Int]
         $Depth,
-        [Parameter]
+        [Parameter()]
         [String]
         $Branch,
         [Parameter(Position=0, Mandatory=$True)]
@@ -39,22 +37,15 @@ Function Invoke-GitClone
 
     Process
     {
-        $params = (
-            Resolve-Args `
-                -Arguments $Args `
-                -Defaults @{'Depth'=0; 'Branch'=''; 'Uri'=''; 'Path'=''} `
-                -KeyMaps @{'Depth'='--depth'; 'Branch'='-b','--branch'} `
-                -Positionals 'Uri','Path')
-
-        If($params['Path'] -Eq '')
+        If($Path -Eq '')
         {
-            If($params['Uri'] -Match '/')
+            If($Uri -Match '/')
             {
-                $last = ($params['Uri'] -Split '/' | ? {$_ -Ne '' } | select -Last 2)
+                $last = ($Uri -Split '/' | ? {$_ -Ne '' } | select -Last 2)
             }
             Else
             {
-                $last = ($params['Uri'] -Split '\' | ? {$_ -Ne '' } | select -Last 2)
+                $last = ($Uri -Split '\' | ? {$_ -Ne '' } | select -Last 2)
             }
             If($last[1])
             {
@@ -68,20 +59,20 @@ Function Invoke-GitClone
         }
         Else
         {
-            $dstPath = (Convert-FullPath $params['Path'])
+            $dstPath = (Convert-FullPath $Path)
         }
 
         $options = (New-Object LibGit2Sharp.CloneOptions)
-        If($params['Branch'] -Ne '')
+        If($Branch -Ne '')
         {
-            $options.BranchName = $params['Branch']
+            $options.BranchName = $Branch
         }
 
-        If($params['Depth'] -Ne 0)
+        If($Depth -Ne 0)
         {
             # TODO: Impl: Depth Option
         }
 
-        return [LibGit2Sharp.Repository]::Clone($params['Uri'], $dstPath, $options)
+        return [LibGit2Sharp.Repository]::Clone($Uri, $dstPath, $options)
     }
 }
