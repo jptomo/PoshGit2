@@ -102,9 +102,9 @@ Function Resolve-Args
 
         $pos = 0
         $arguments = ($ArgStr -Split ' ')
-        For($i = 0; $i -lt $arguments.Count; $i += 1)
+        For($i = 0; $i -Lt $arguments.Count; $i += 1)
         {
-            If($maps.Keys -contains $arguments[$i])
+            If($maps.Keys -Contains $arguments[$i])
             {
                 $params[$maps[$arguments[$i]]] = $arguments[$i + 1]
                 $i += 1
