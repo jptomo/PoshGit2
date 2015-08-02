@@ -45,7 +45,7 @@ Function Invoke-GitClone
             }
             Else
             {
-                $last = ($Uri -Split '\' | ? {$_ -Ne '' } | select -Last 2)
+                $last = ($Uri -Split '\\' | ? {$_ -Ne '' } | select -Last 2)
             }
             If($last[1])
             {
