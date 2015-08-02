@@ -23,7 +23,7 @@ Function Invoke-GitClone
     Param(
         [Parameter()]
         [Int]
-        $Depth,
+        $Depth = -1,
         [Parameter()]
         [String]
         $Branch,
@@ -68,7 +68,7 @@ Function Invoke-GitClone
             $options.BranchName = $Branch
         }
 
-        If($Depth -Ne 0)
+        If($Depth -Ne -1)
         {
             # TODO: Impl: Depth Option
         }
