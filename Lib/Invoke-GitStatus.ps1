@@ -3,32 +3,30 @@ Function Invoke-GitStatus
     Process
     {
         $cwd = (Convert-Path .)
-        try
+        Try
         {
             $repo = (Get-GitRepository $cwd)
         }
-        catch
+        Catch
         {
             Write-Error "fatal: Not a git repository"
-            return
+            Return
         }
 
         $status2text =
         {
-            Param(
-                [LibGit2Sharp.StatusEntry]$item
-            )
+            Param([LibGit2Sharp.StatusEntry]$item)
 
             Process
             {
-                $entries = [LibGit2Sharp.StatusEntry]
-                $statusDict = @{
-                    'Modified' = 'M ';
-                    'ModifiedInWorkdir' = ' M';
+                Switch($item.state)
+                {
+                    'Modified'        { Return 'M ' }
+                    'ModifiedWorkdir' { Return ' M' }
+                    default           { Return $item.state.ToString() }
                 }
-
-                return $statusDict[$item.state.ToString()]
             }
+
         }
 
         $options = (New-Object LibGit2Sharp.StatusOptions)
