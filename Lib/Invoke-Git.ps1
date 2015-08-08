@@ -1,8 +1,15 @@
 Function Invoke-Git
 {
+    Switch ($Args[0])
+    {
+        'st'    { $srcCmd = 'status' }
+        'ci'    { $srcCmd = 'commit' }
+        default { $srcCmd = $Args[0] }
+    }
+
     # Search a defined Function with Invoke-Git prefix
     $culture = [System.Globalization.CultureInfo]::GetCultureInfo("en-US")
-    $targetCmdlet = "Invoke-Git$($culture.TextInfo.ToTitleCase($Args[0]))"
+    $targetCmdlet = "Invoke-Git$($culture.TextInfo.ToTitleCase($srcCmd))"
 
     # Search a file with Invoke-Git prefix
     If((Get-ChildItem Function:\ | ? { $_.Name -Eq $targetCmdlet }).Count -Eq 0)
