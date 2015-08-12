@@ -48,7 +48,7 @@ Function Invoke-GitStatus
                     'TypeChangeInIndex'    { Return '' }
                     # New file in the working directory, unknown from the Index and the Head.
                     # Obsolete -> NewInWorkdir
-                    'Untracked'            { Return '' }
+                    'Untracked'            { Return '??' }
                     # New file in the working directory, unknown from the Index and the Head.
                     'NewInWorkdir'         { Return ' A' }
                     # The file has been updated in the working directory. A previous version exists in the Index.

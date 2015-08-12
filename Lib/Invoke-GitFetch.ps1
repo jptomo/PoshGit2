@@ -17,11 +17,11 @@ Function Invoke-GitFetch
 
     Process
     {
-        Try
+        try
         {
             $repo = (Get-GitRepository (Convert-Path .))
         }
-        Catch
+        catch
         {
             Write-Error "fatal: Not a git repository"
             Return
