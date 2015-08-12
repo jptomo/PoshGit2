@@ -23,10 +23,14 @@ Function Invoke-Git
 
     # Parse Args
     $cmdParams = ''
-    If((Get-ChildItem Function:\ | ? { $_.Name -Eq $targetCmdlet }).Count -Gt 0)
+    if ((Get-ChildItem Function:\ | ? { $_.Name -Eq $targetCmdlet }).Count -Gt 0)
     {
         $defaults, $keyMaps, $positionals = (Get-FuncParams $targetCmdlet)
-        $argStr = ([String]::Join(' ', $Args[1..($Args.Count-1)]))
+        $argStr = ''
+        if ($Args.Count > 1)
+        {
+            $argStr = ([String]::Join(' ', $Args[1..($Args.Count-1)]))
+        }
         $params = (Resolve-Args $argStr $defaults $keyMaps $positionals)
 
         ForEach($key in $keyMaps.Keys)
