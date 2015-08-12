@@ -2,10 +2,9 @@ Function Invoke-GitStatus
 {
     Process
     {
-        $cwd = (Convert-Path .)
         Try
         {
-            $repo = (Get-GitRepository $cwd)
+            $repo = (Get-GitRepository (Convert-Path .))
         }
         Catch
         {
@@ -78,7 +77,6 @@ Function Invoke-GitStatus
                     default                { Return $item.state.ToString() }
                 }
             }
-
         }
 
         $options = (New-Object LibGit2Sharp.StatusOptions)
