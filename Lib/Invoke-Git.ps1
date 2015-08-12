@@ -27,12 +27,11 @@ Function Invoke-Git
     {
         $defaults, $keyMaps, $positionals = (Get-FuncParams $targetCmdlet)
         $argStr = ''
-        if ($Args.Count > 1)
+        if ($Args.Count -gt 1)
         {
             $argStr = ([String]::Join(' ', $Args[1..($Args.Count-1)]))
         }
         $params = (Resolve-Args $argStr $defaults $keyMaps $positionals)
-
         ForEach($key in $keyMaps.Keys)
         {
             $param = $params[$key]
